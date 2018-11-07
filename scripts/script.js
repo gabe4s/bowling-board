@@ -34,7 +34,23 @@ function drawBoards(numOfPlayers) {
         }
         // Draw frame 10
         var frame = document.createElement("div");
-        frame.classList.add("frame");
+        frame.classList.add("lastFrame");
+
+        var throwOne = document.createElement("div");
+        throwOne.classList.add("throwOne");
+        throwOne.classList.add("last");
+        frame.appendChild(throwOne);
+        
+        var throwTwo = document.createElement("div");
+        throwTwo.classList.add("throwTwo");
+        throwTwo.classList.add("last");
+        frame.appendChild(throwTwo);
+
+        var throwThree = document.createElement("div");
+        throwThree.classList.add("throwThree");
+        throwThree.classList.add("last");
+        frame.appendChild(throwThree);
+
         scoreboard.appendChild(frame);
         
         scoreboardContainer.appendChild(scoreboard);

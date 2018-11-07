@@ -1,8 +1,17 @@
-.frame {
+.frame, .lastFrame {
     display: inline-block;
-    width: 50px;
     height: 50px;
-    border: 1px solid black;
+    border-color: black;
+    border-style: solid;
+    border-width: 1px 1px 1px 0px;
+}
+
+.frame {
+    width: 50px;
+}
+
+.lastFrame {
+    width: 75px;
 }
 
 .nameLabel {
@@ -12,18 +21,18 @@
     border: 1px solid black;
 }
 
-.throwOne, .throwTwo {
+.throwOne, .throwTwo, .throwThree {
     width: 50%;
     height: 50%;
-    box-sizing: border-box
+    box-sizing: border-box;
+    display: inline-block;
 }
 
-.throwOne {
-    float: left;
+.throwOne.last, .throwTwo.last, .throwThree.last {
+    width: calc(100%/3);
 }
 
-.throwTwo {
-    float: right;
+.throwTwo, .throwThree {
     border-color: black;
     border-style: solid;
     border-width: 0px 0px 1px 1px;
