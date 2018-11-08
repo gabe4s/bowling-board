@@ -18,14 +18,18 @@ var scoreField = document.getElementById("scoreInput");
 function startGame() {
     var numOfPlayers = parseInt(document.getElementById("players").value);
 
-    totalPlayers = numOfPlayers;
-
-    // Hide start container and show game container
-    document.getElementById("startContainer").style.display = "none";
-    document.getElementById("gameContainer").style.display = "initial";
-
-    drawBoards(numOfPlayers);
-    initializeFields();
+    if(numOfPlayers < 1 || numOfPlayers > 6) {
+        document.getElementById("startError").innerHTML = "Must choose between 1 and 6 players";
+    } else {
+        totalPlayers = numOfPlayers;
+        
+        // Hide start container and show game container
+        document.getElementById("startContainer").style.display = "none";
+        document.getElementById("gameContainer").style.display = "initial";
+        
+        drawBoards(numOfPlayers);
+        initializeFields();
+    }
 }
 
 function drawBoards(numOfPlayers) {
@@ -36,9 +40,9 @@ function drawBoards(numOfPlayers) {
         var scoreboard = document.createElement("div");
         scoreboard.id = "player" + playerId
 
-        // var nameLabel = document.createElement("div");
-        // nameLabel.classList.add("nameLabel");
-        // scoreboard.appendChild(nameLabel);
+        var nameLabel = document.createElement("div");
+        nameLabel.classList.add("nameLabel");
+        scoreboard.appendChild(nameLabel);
 
         // Draw frames 1-9
         for (frameId = 1; frameId <= 9; frameId++) {
@@ -47,17 +51,20 @@ function drawBoards(numOfPlayers) {
             frame.id = "frame" + frameId;
 
             var throwOne = document.createElement("div");
+            throwOne.innerHTML = "&nbsp;"
             throwOne.classList.add("throwOne");
             throwOne.classList.add("throw1");
             frame.appendChild(throwOne);
 
             var throwTwo = document.createElement("div");
+            throwTwo.innerHTML = "&nbsp;"
             throwTwo.classList.add("throwTwo");
             throwTwo.classList.add("throw2");
             throwTwo.classList.add("modifier");
             frame.appendChild(throwTwo);
 
             var frameTotal = document.createElement("div");
+            frameTotal.innerHTML = "&nbsp;"
             frameTotal.classList.add("frameTotal");
             frame.appendChild(frameTotal);
 
@@ -69,24 +76,28 @@ function drawBoards(numOfPlayers) {
         lastFrame.classList.add("lastFrame");
 
         var throwOne = document.createElement("div");
+        throwOne.innerHTML = "&nbsp;"
         throwOne.classList.add("throwOne");
         throwOne.classList.add("throw1");
         throwOne.classList.add("last");
         lastFrame.appendChild(throwOne);
 
         var throwTwo = document.createElement("div");
+        throwTwo.innerHTML = "&nbsp;"
         throwTwo.classList.add("throwTwo");
         throwTwo.classList.add("throw2");
         throwTwo.classList.add("last");
         lastFrame.appendChild(throwTwo);
 
         var throwThree = document.createElement("div");
+        throwThree.innerHTML = "&nbsp;"
         throwThree.classList.add("throwThree");
         throwThree.classList.add("throw3");
         throwThree.classList.add("last");
         lastFrame.appendChild(throwThree);
 
         var frameTotal = document.createElement("div");
+        frameTotal.innerHTML = "&nbsp;"
         frameTotal.classList.add("frameTotal");
         lastFrame.appendChild(frameTotal);
 

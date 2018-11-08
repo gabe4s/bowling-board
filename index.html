@@ -8,24 +8,30 @@
 </head>
 
 <body>
-    <h1>Bowling Scoreboard</h1>
-    <br/>
-
-    <div id="startContainer">
-        <h3>How many players?</h3>
-        <input id="players" type="number" min="1" max="6" value="1"><br>
-        <button id="playButton" onclick="startGame()">Play</button>
-    </div>
-
-    <div id="gameContainer">
-        <div id="inputContainer">
-            <p id="frameNum"></p>
-            <p id="playerNum"></p>
-            <p id="throwNum"></p>
-            <input id="scoreInput" min="0" max="10" type="number">
-            <button onclick="setThrowScore()">Enter Score</button>
+    <!-- <h1>Bowling Scoreboard</h1> -->
+    <!-- <br/> -->
+    <div id="wrapper">
+        <div id="startContainer">
+            <h1>Bowling Scoreboard</h1>
+            <br/>
+            <h2>How many players?</h2>
+            <br/>
+            <input id="players" type="number" min="1" max="6" value="1">
+            <button id="playButton" onclick="startGame()">Play</button>
+            <p id="startError">&nbsp;</p>
         </div>
-        <div id="scoreboardContainer"></div>
+        
+        <div id="gameContainer">
+            <div id="inputContainer">
+                <p id="frameNum"></p>
+                <p id="playerNum"></p>
+                <p id="throwNum"></p>
+                <input id="scoreInput" min="0" max="10" type="number">
+                <button onclick="setThrowScore()">Enter Score</button>
+            </div>
+            <div id="scoreboardContainer"></div>
+        </div>
+
     </div>
 </body>
 

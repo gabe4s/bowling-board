@@ -1,16 +1,79 @@
+html {
+    background: url(../img//bowling-lane.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+html, body, h1, h2, h3, div, p {
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+#wrapper {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 96vw;
+    height: 96vh;
+    margin: 2vh 2vw;
+}
+
+#startContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#players {
+    background-color: rgba(100, 100, 100, 0.8);
+    border: 1px solid white;
+    width: 4vw;
+    height: 3vw;
+    color: white;
+    font-size: 1.5vw;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#playButton {
+    width: 10vw;
+    height: 3vw;
+    box-sizing: border-box;
+    background-color: rgba(50, 50, 50, 0.8);
+    border: 1px solid white;
+    color: white;
+    font-size: 1.5vw;
+}
+
+#playButton:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    color: black;
+}
+
+#startError {
+    color: red;
+    margin-top: 0.5vw;
+    font-size: 1vw;
+}
+
 #gameContainer {
     display: none;
 }
 
 .frame, .lastFrame {
-    display: inline-flex;
+    display: inline-block;
     height: 6vw;
-    border-color: black;
+    border-color: white;
     border-style: solid;
     border-width: 1px 1px 1px 0px;
     box-sizing: border-box;
     position: relative;
     vertical-align: top;
+    font-size: 2vw;
+    text-align: center;
 }
 
 .frame {
@@ -22,18 +85,22 @@
 }
 
 .nameLabel {
-    display: inline-flex;
-    width: 100px;
-    height: 50px;
-    border: 1px solid black;
+    display: inline-block;
+    width: 9vw;
+    height: 6vw;
+    border: 1px solid white;
     box-sizing: border-box;
+    color: white;
+    text-align: center;
+    font-size: 2vw;
 }
 
 .throwOne, .throwTwo, .throwThree {
     width: 50%;
     height: 50%;
-    display: inline-flex;
+    display: inline-block;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .throwOne.last, .throwTwo.last, .throwThree.last {
@@ -41,7 +108,7 @@
 }
 
 .throwTwo, .throwThree {
-    border-color: black;
+    border-color: white;
     border-style: solid;
     border-width: 0px 0px 1px 1px;
 }
@@ -49,7 +116,7 @@
 .frameTotal {
     width: 100%;
     height: 50%;
-    display: inline-flex;
+    display: inline-block;
     box-sizing: border-box;
     position: absolute;
     bottom: 0;
