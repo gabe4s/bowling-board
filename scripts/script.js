@@ -114,15 +114,21 @@ function setThrowScore() {
 
     playerObj[throwNum] = score;
 
+    computeCurrentPlayerScore();
     if(score == 10 || throwNum >= 2) {
         if(frameNum == 10 && (throwNum == 1 || (throwNum == 2 && playerObj[1] + score >= 10))) {
             // If it's frame 10 and it's their first throw or they have knocked down all 10 pins in the first or second throw, they get another ball
             throwNum++;
         } else {
             if(playerNum == totalPlayers) {
-                // Increase the frame, go back to player 1
-                frameNum++;
-                playerNum = 1;
+                if(frameNum == 10) {
+                    // End game
+                    alert("Game over!");
+                } else {
+                    // Increase the frame, go back to player 1
+                    frameNum++;
+                    playerNum = 1;
+                }
             } else {
                 // Increase the player
                 playerNum++;
@@ -138,4 +144,60 @@ function setThrowScore() {
     frameNumField.innerHTML = frameNum;
     playerNumField.innerHTML = playerNum;
     throwNumField.innerHTML = throwNum;
+}
+
+function computeCurrentPlayerScore() {
+    for(frame = 1; frame <= 10; frame++) {
+        var frameObj = scores[frame];
+        if(frameObj) {
+            var playerThrows = frameObj[playerNum];
+            
+            var throwOne = playerThrows[1];
+            var throwTwo = playerThrows[2];
+            
+            if(throwOne == 10 || (throwOne && throwTwo)) {
+
+                var frameScore = throwOne + (throwTwo || 0);
+            
+                if(frameScore == 10) {
+                    // Spare or strike
+                    var nextFrameObj = scores[frame+1];
+                    if(nextFrameObj) {
+                        var nextPlayerThrows = nextFrameObj[playerNum];
+                        if(nextPlayerThrows) {
+                            var nextThrowOne = nextPlayerThrows[1];
+                            var nextThrowTwo = nextPlayerThrows[2];
+                            if(throwOne == 10) {
+                                // Strike
+                                if(nextThrowOne == 10) {
+                                    // Strike on next frame, so we use frame after that also
+                                    var nextNextFrameObj = scores[frame+2];
+                                    if(nextNextFrameObj) {
+                                        var nextNextPlayerThrows = nextNextFrameObj[playerNum];
+                                        var nextNextThrowOne = nextNextPlayerThrows[1];
+                                        if(nextThrowOne && nextNextThrowOne) {
+                                            frameObj["frameScore"] = frameScore + nextThrowOne + nextNextThrowOne;
+                                        }
+                                    }
+                                } else {
+                                    // No strike on frame after first strike, so both throws next frame
+                                    if(nextThrowOne && nextThrowTwo) {
+                                        frameObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
+                                    }
+                                }
+                                
+                            } else {
+                                // Spare
+                                if(nextThrowOne) {
+                                    frameObj["frameScore"] = frameScore + nextThrowOne;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    frameObj["frameScore"] = frameScore;
+                }
+            }
+        }
+    }
 }
