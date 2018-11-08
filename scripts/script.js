@@ -54,6 +54,7 @@ function drawBoards(numOfPlayers) {
             var throwTwo = document.createElement("div");
             throwTwo.classList.add("throwTwo");
             throwTwo.classList.add("throw2");
+            throwTwo.classList.add("modifier");
             frame.appendChild(throwTwo);
 
             var frameTotal = document.createElement("div");
@@ -128,8 +129,7 @@ function setThrowScore() {
 
     computeCurrentPlayerScore();
 
-    var currentThrowElement = document.querySelector(("#player" + playerNum) + ">" + ("#frame" + frameNum) + ">" + (".throw" + throwNum));
-    currentThrowElement.innerHTML = score;
+    drawThrowScore(score);
 
     drawCurrentPlayerScore();
 
@@ -162,6 +162,27 @@ function setThrowScore() {
     frameNumField.innerHTML = frameNum;
     playerNumField.innerHTML = playerNum;
     throwNumField.innerHTML = throwNum;
+}
+
+function drawThrowScore(score) {
+    var throwSpot;
+    var scoreUI;
+    if(frameNum == 10 && score == 10) {
+        throwSpot = ".throw" + throwNum;
+        scoreUI = "X";
+    } else if(throwNum == 1 && score == 10) {
+        throwSpot = ".modifier";
+        scoreUI = "X";
+    } else {
+        throwSpot = ".throw" + throwNum;
+        if(throwNum == 2 && scores[frameNum][playerNum][1] + score == 10) {
+            scoreUI = "/";
+        } else {
+            scoreUI = score;
+        }
+    }
+    var currentThrowElement = document.querySelector(("#player" + playerNum) + ">" + ("#frame" + frameNum) + ">" + throwSpot);
+    currentThrowElement.innerHTML = scoreUI;
 }
 
 function computeCurrentPlayerScore() {
