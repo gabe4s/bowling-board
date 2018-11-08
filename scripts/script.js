@@ -85,6 +85,10 @@ function drawBoards(numOfPlayers) {
         throwThree.classList.add("last");
         lastFrame.appendChild(throwThree);
 
+        var frameTotal = document.createElement("div");
+        frameTotal.classList.add("frameTotal");
+        lastFrame.appendChild(frameTotal);
+
         scoreboard.appendChild(lastFrame);
 
         scoreboardContainer.appendChild(scoreboard);
@@ -128,6 +132,7 @@ function setThrowScore() {
     currentThrowElement.innerHTML = score;
 
     drawCurrentPlayerScore();
+
     if (score == 10 || throwNum >= 2) {
         if (frameNum == 10 && (throwNum == 1 || (throwNum == 2 && playerObj[1] + score >= 10))) {
             // If it's frame 10 and it's their first throw or they have knocked down all 10 pins in the first or second throw, they get another ball
@@ -136,7 +141,7 @@ function setThrowScore() {
             if (playerNum == totalPlayers) {
                 if (frameNum == 10) {
                     // End game
-                    alert("Game over!");
+                    console.log("END GAME");
                 } else {
                     // Increase the frame, go back to player 1
                     frameNum++;
@@ -164,24 +169,39 @@ function computeCurrentPlayerScore() {
         var frameObj = scores[frame];
         if (frameObj) {
             var playerObj = frameObj[playerNum];
+            if(playerObj) {
+                var throwOne = playerObj[1];
+                var throwTwo = playerObj[2];
 
-            var throwOne = playerObj[1];
-            var throwTwo = playerObj[2];
+                var frameScore;
 
-            if (throwOne == 10 || (throwOne && throwTwo)) {
-
-                var frameScore = throwOne + (throwTwo || 0);
-
-                if (frameScore == 10) {
-                    // Spare or strike
-                    var nextFrameObj = scores[frame + 1];
-                    if (nextFrameObj) {
-                        var nextplayerObj = nextFrameObj[playerNum];
-                        if (nextplayerObj) {
-                            var nextThrowOne = nextplayerObj[1];
-                            var nextThrowTwo = nextplayerObj[2];
-                            if (throwOne == 10) {
-                                // Strike
+                if(throwOne == 10) {
+                    frameScore = 10; // Need to make sure its 10 so we dont count both frame 10 strikes as 20
+                    // Strike
+                    if(frame == 10) {
+                        var throwThree = playerObj[3];
+                        if(throwTwo && throwThree) {
+                            playerObj["frameScore"] = frameScore + throwTwo + throwThree;
+                        }
+                    } else if (frame == 9) {
+                        var nextFrameObj = scores[frame+1];
+                        if(nextFrameObj) {
+                            var nextPlayerObj = nextFrameObj[playerNum];
+                            if(nextPlayerObj) {
+                                var nextThrowOne = nextPlayerObj[1];
+                                var nextThrowTwo = nextPlayerObj[2];
+                                if(nextThrowOne && nextThrowTwo) {
+                                    playerObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
+                                }
+                            }
+                        }
+                    } else {
+                        var nextFrameObj = scores[frame+1];
+                        if(nextFrameObj) {
+                            var nextPlayerObj = nextFrameObj[playerNum];
+                            if(nextPlayerObj) {
+                                var nextThrowOne = nextPlayerObj[1];
+                                var nextThrowTwo = nextPlayerObj[2];
                                 if (nextThrowOne == 10) {
                                     // Strike on next frame, so we use frame after that also
                                     var nextNextFrameObj = scores[frame + 2];
@@ -198,16 +218,32 @@ function computeCurrentPlayerScore() {
                                         playerObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
                                     }
                                 }
-
-                            } else {
-                                // Spare
-                                if (nextThrowOne) {
+                            }
+                        }
+                    }
+                } else if (throwOne && throwTwo && throwOne + throwTwo == 10) {
+                    // Spare
+                    frameScore = 10;
+                    if(frame == 10) {
+                        var throwThree = playerObj[3];
+                        if(throwThree) {
+                            playerObj["frameScore"] = frameScore + throwThree;
+                        }
+                    } else {
+                        var nextFrameObj = scores[frame+1];
+                        if(nextFrameObj) {
+                            var nextPlayerObj = nextFrameObj[playerNum];
+                            if(nextPlayerObj) {
+                                var nextThrowOne = nextPlayerObj[1];
+                                if(nextThrowOne) {
                                     playerObj["frameScore"] = frameScore + nextThrowOne;
                                 }
                             }
                         }
                     }
-                } else {
+                } else if (throwOne && throwTwo) {
+                    // Not all pins down
+                    frameScore = throwOne + throwTwo;
                     playerObj["frameScore"] = frameScore;
                 }
             }
@@ -225,6 +261,7 @@ function drawCurrentPlayerScore() {
                 var frameScore = playerObj["frameScore"];
                 if(frameScore) {
                     scoreCounter += frameScore;
+                    playerObj["totalScore"] = scoreCounter;
                     var frameScoreElement = document.querySelector(("#player" + playerNum) + ">" + ("#frame" + frame) + ">.frameTotal");
                     frameScoreElement.innerHTML = scoreCounter;
                 }
