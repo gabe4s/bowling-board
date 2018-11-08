@@ -15,7 +15,7 @@ html, body, h1, h2, h3, div, p {
 #wrapper {
     background-color: rgba(0, 0, 0, 0.8);
     width: 96vw;
-    height: 96vh;
+    min-height: 96vh;
     margin: 2vh 2vw;
 }
 
@@ -63,36 +63,93 @@ html, body, h1, h2, h3, div, p {
     display: none;
 }
 
+.playerEntryPopup {
+    width: 30vw;
+    height: 16vw;
+    border: 1px solid white;
+    border-radius: 2vw;
+    background-color: rgba(25, 25, 25, 1);
+    color: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.playerEntryPopup > p {
+    font-size: 2vw;
+    margin: 3vw 0;
+}
+
+.playerEntryPopup > input {
+    background-color: rgba(100, 100, 100, 0.8);
+    border: 1px solid white;
+    width: 12vw;
+    height: 3vw;
+    color: white;
+    font-size: 1.5vw;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.playerEntryPopup > button {
+    width: 8vw;
+    height: 3vw;
+    box-sizing: border-box;
+    background-color: rgba(50, 50, 50, 0.8);
+    border: 1px solid white;
+    color: white;
+    font-size: 1.5vw;
+}
+
+.playerEntryPopup > button:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    color: black;
+}
+
+#scoreboardContainer {
+    text-align: center;
+}
+
+.scoreboard {
+    margin-bottom: 1vw;
+}
+
 .frame, .lastFrame {
     display: inline-block;
-    height: 6vw;
+    height: 8vw;
     border-color: white;
     border-style: solid;
     border-width: 1px 1px 1px 0px;
     box-sizing: border-box;
     position: relative;
     vertical-align: top;
-    font-size: 2vw;
+    font-size: 2.5vw;
     text-align: center;
 }
 
 .frame {
-    width: 6vw;
+    width: 8vw;
 }
 
 .lastFrame {
-    width: 9vw;
+    width: 12vw;
 }
 
 .nameLabel {
     display: inline-block;
     width: 9vw;
-    height: 6vw;
+    height: 8vw;
     border: 1px solid white;
     box-sizing: border-box;
     color: white;
     text-align: center;
-    font-size: 2vw;
+    font-size: 1.5vw;
+}
+
+.nameLabel > p {
+    line-height: 8vw;
 }
 
 .throwOne, .throwTwo, .throwThree {

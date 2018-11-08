@@ -18,17 +18,18 @@ var scoreField = document.getElementById("scoreInput");
 function startGame() {
     var numOfPlayers = parseInt(document.getElementById("players").value);
 
-    if(numOfPlayers < 1 || numOfPlayers > 6) {
+    if(isNaN(numOfPlayers) || numOfPlayers < 1 || numOfPlayers > 6) {
         document.getElementById("startError").innerHTML = "Must choose between 1 and 6 players";
     } else {
         totalPlayers = numOfPlayers;
         
         // Hide start container and show game container
         document.getElementById("startContainer").style.display = "none";
-        document.getElementById("gameContainer").style.display = "initial";
+        document.getElementById("gameContainer").style.display = "block";
         
-        drawBoards(numOfPlayers);
+        drawBoards(numOfPlayers);   
         initializeFields();
+        showNameEntryFields();
     }
 }
 
@@ -36,16 +37,21 @@ function drawBoards(numOfPlayers) {
     var scoreboardContainer = document.getElementById("scoreboardContainer");
 
     // Using 1 base arrays to keep it consistent with user input
-    for (playerId = 1; playerId <= numOfPlayers; playerId++) {
+    for (var playerId = 1; playerId <= numOfPlayers; playerId++) {
         var scoreboard = document.createElement("div");
         scoreboard.id = "player" + playerId
+        scoreboard.classList.add("scoreboard");
 
         var nameLabel = document.createElement("div");
         nameLabel.classList.add("nameLabel");
+
+        var nameLabelInner = document.createElement("p");
+
+        nameLabel.appendChild(nameLabelInner);
         scoreboard.appendChild(nameLabel);
 
         // Draw frames 1-9
-        for (frameId = 1; frameId <= 9; frameId++) {
+        for (var frameId = 1; frameId <= 9; frameId++) {
             var frame = document.createElement("div");
             frame.classList.add("frame");
             frame.id = "frame" + frameId;
@@ -119,6 +125,36 @@ function initializeFields() {
     frameNumField.innerHTML = frameNum;
     playerNumField.innerHTML = playerNum;
     throwNumField.innerHTML = throwNum;
+}
+
+function showNameEntryFields() {
+    for(var playerId = totalPlayers; playerId >= 1; playerId--) {
+        var playerEntryPopup = document.createElement("div");
+        playerEntryPopup.classList.add("playerEntryPopup");
+
+        var text = document.createElement("p");
+        text.innerHTML ="Enter a name for player " + playerId;
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.maxLength = 12;
+
+        var button = document.createElement("button");
+        button.innerHTML = "Submit";
+        (function (playerId, input, playerEntryPopup) {
+            button.onclick = function() {
+                var nameLabelInner = document.querySelector("#player" + playerId + ">.nameLabel>p");
+                playerEntryPopup.style.display = "none";
+                nameLabelInner.innerHTML = input.value;
+            };
+        })(playerId, input, playerEntryPopup);
+
+        playerEntryPopup.appendChild(text);
+        playerEntryPopup.appendChild(input);
+        playerEntryPopup.appendChild(button);
+
+        document.getElementById("gameContainer").appendChild(playerEntryPopup);
+    }
 }
 
 function setThrowScore() {
@@ -197,7 +233,7 @@ function drawThrowScore(score) {
 }
 
 function computeCurrentPlayerScore() {
-    for (frame = 1; frame <= 10; frame++) {
+    for (var frame = 1; frame <= 10; frame++) {
         var frameObj = scores[frame];
         if (frameObj) {
             var playerObj = frameObj[playerNum];
@@ -285,7 +321,7 @@ function computeCurrentPlayerScore() {
 
 function drawCurrentPlayerScore() {
     var scoreCounter = 0;
-    for (frame = 1; frame <= 10; frame++) {
+    for (var frame = 1; frame <= 10; frame++) {
         var frameObj = scores[frame];
         if (frameObj) {
             var playerObj = frameObj[playerNum];
