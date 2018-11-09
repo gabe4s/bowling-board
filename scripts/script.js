@@ -8,10 +8,6 @@ var frameNum = 1;
 var playerNum = 1;
 var throwNum = 1;
 
-var frameNumField;
-var playerNumField;
-var throwNumField;
-
 var scoreField = document.getElementById("scoreInput");
 
 
@@ -46,6 +42,7 @@ function drawBoards(numOfPlayers) {
         nameLabel.classList.add("nameLabel");
 
         var nameLabelInner = document.createElement("p");
+        nameLabelInner.innerHTML = "&nbsp;";
 
         nameLabel.appendChild(nameLabelInner);
         scoreboard.appendChild(nameLabel);
@@ -114,17 +111,20 @@ function drawBoards(numOfPlayers) {
 
 }
 
-function initializeFields() {
-    frameNumField = document.getElementById("frameNum");
-    playerNumField = document.getElementById("playerNum");
-    throwNumField = document.getElementById("throwNum");
+function updateBoardHighlight () {
+    var highlightedElements = document.getElementsByClassName("highlight");
 
+    [].forEach.call(highlightedElements, function(element) {
+        element.classList.remove("highlight");
+    });
+
+    document.getElementById("player" + playerNum).classList.add("highlight")
+}
+
+function initializeFields() {
     scoreField = document.getElementById("scoreInput");
 
-    // Set initial frame, player, and throw numbers
-    frameNumField.innerHTML = frameNum;
-    playerNumField.innerHTML = playerNum;
-    throwNumField.innerHTML = throwNum;
+    updateBoardHighlight();
 }
 
 function showNameEntryFields() {
@@ -206,9 +206,7 @@ function setThrowScore() {
 
     console.log(scores);
 
-    frameNumField.innerHTML = frameNum;
-    playerNumField.innerHTML = playerNum;
-    throwNumField.innerHTML = throwNum;
+    updateBoardHighlight();
 }
 
 function drawThrowScore(score) {

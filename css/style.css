@@ -12,6 +12,12 @@ html, body, h1, h2, h3, div, p {
     margin: 0;
 }
 
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 #wrapper {
     background-color: rgba(0, 0, 0, 0.8);
     width: 96vw;
@@ -46,6 +52,7 @@ html, body, h1, h2, h3, div, p {
     border: 1px solid white;
     color: white;
     font-size: 1.5vw;
+    cursor: pointer;
 }
 
 #playButton:hover {
@@ -61,6 +68,41 @@ html, body, h1, h2, h3, div, p {
 
 #gameContainer {
     display: none;
+}
+
+#inputContainer {
+    padding: 2vw;
+}
+
+#inputContainer > p {
+    font-size: 1.5vw;
+}
+
+#inputContainer > input {
+    background-color: rgba(100, 100, 100, 0.8);
+    border: 1px solid white;
+    width: 6vw;
+    height: 3vw;
+    color: white;
+    font-size: 1.5vw;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#inputContainer > button {
+    width: 6vw;
+    height: 3vw;
+    box-sizing: border-box;
+    background-color: rgba(50, 50, 50, 0.8);
+    border: 1px solid white;
+    color: white;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
+
+#inputContainer > button:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+    color: black;
 }
 
 .playerEntryPopup {
@@ -101,6 +143,7 @@ html, body, h1, h2, h3, div, p {
     border: 1px solid white;
     color: white;
     font-size: 1.5vw;
+    cursor: pointer;
 }
 
 .playerEntryPopup > button:hover {
@@ -108,12 +151,14 @@ html, body, h1, h2, h3, div, p {
     color: black;
 }
 
-#scoreboardContainer {
-    text-align: center;
+.scoreboard {
+    width: 92vw;
+    margin: 0 auto 1vw auto;
+    background-color: rgba(50, 50, 50, 0.5);
 }
 
-.scoreboard {
-    margin-bottom: 1vw;
+.scoreboard.highlight {
+    background-color: rgba(100, 100, 100, 0.5);
 }
 
 .frame, .lastFrame {
@@ -139,7 +184,7 @@ html, body, h1, h2, h3, div, p {
 
 .nameLabel {
     display: inline-block;
-    width: 9vw;
+    width: 8vw;
     height: 8vw;
     border: 1px solid white;
     box-sizing: border-box;
@@ -150,6 +195,11 @@ html, body, h1, h2, h3, div, p {
 
 .nameLabel > p {
     line-height: 8vw;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+    overflow: hidden
 }
 
 .throwOne, .throwTwo, .throwThree {
