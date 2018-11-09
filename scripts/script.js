@@ -97,6 +97,7 @@ function drawBoards(numOfPlayers) {
         // Draw frame 10
         var lastFrame = document.createElement("div");
         lastFrame.id = "frame10";
+        lastFrame.classList.add("frame");
         lastFrame.classList.add("lastFrame");
 
         var throwOne = document.createElement("div");
@@ -140,6 +141,8 @@ function updateBoardHighlight() {
     });
 
     document.getElementById("player" + playerNum).classList.add("highlight")
+
+    document.querySelector("#player" + playerNum + ">#frame" + frameNum).classList.add("highlight");
 }
 
 function initializeFields() {
@@ -245,7 +248,12 @@ function setThrowScore(score) {
             if (playerNum == totalPlayers) {
                 if (frameNum == 10) {
                     // End game
-                    console.log("END GAME");
+                    document.getElementById("scoreInput").disabled = true;
+                    document.getElementById("scoreButton").style.pointerEvents = "none";
+                    var highlightedElements = document.getElementsByClassName("highlight");
+                    [].forEach.call(highlightedElements, function (element) {
+                        element.classList.remove("highlight");
+                    });
                 } else {
                     // Increase the frame, go back to player 1
                     frameNum++;

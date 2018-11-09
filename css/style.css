@@ -21,7 +21,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 #blocker {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     background-color: rgba(50, 50, 50, 0.5);
     position: absolute;
     top: 0;
@@ -34,6 +35,8 @@ input[type=number]::-webkit-outer-spin-button {
     width: 96vw;
     min-height: 96vh;
     margin: 2vh 2vw;
+    padding-bottom: 2vh;
+    box-sizing: border-box;
 }
 
 #startContainer {
@@ -193,6 +196,10 @@ input[type=number]::-webkit-outer-spin-button {
     vertical-align: top;
     font-size: 2.5vw;
     text-align: center;
+}
+
+.frame.highlight {
+    background-color: rgba(150, 150, 150, 0.5);
 }
 
 .frame {
