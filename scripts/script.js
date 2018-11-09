@@ -55,13 +55,13 @@ function drawBoards(numOfPlayers) {
 
     var frameList = document.createElement("div");
     frameList.id = "frameList";
-    for(var frameCount = 0; frameCount <= 10; frameCount ++) {
+    for (var frameCount = 0; frameCount <= 10; frameCount++) {
         var frameElement = document.createElement("div");
         frameElement.classList.add("frameElement");
-        if(frameCount > 0) {
+        if (frameCount > 0) {
             frameElement.innerHTML = frameCount;
         }
-        if(frameCount == 0) {
+        if (frameCount == 0) {
             // Size of nameLabel
             frameElement.style.width = "8vw";
         } else if (frameCount == 10) {
@@ -159,12 +159,12 @@ function drawBoards(numOfPlayers) {
 function updateBoardHighlight() {
     var highlightedElements = document.querySelectorAll(".highlight");;
     highlightedElements.forEach(function (element) {
-            element.classList.remove("highlight");
+        element.classList.remove("highlight");
     });
-    
+
     document.getElementById("player" + playerNum).classList.add("highlight")
     document.querySelector("#player" + playerNum + ">#frame" + frameNum).classList.add("highlight");
-    
+
 }
 
 function initializeFields() {
@@ -228,8 +228,8 @@ function validateThrowScore() {
     if (isNaN(score) || score < 0 || score > 10) {
         inputErrorField.innerHTML = "Pins knocked down must be between 0 and 10";
         scoreInput.classList.add("error");
-    } else if ((throwNum == 2 && scores[frameNum][playerNum][1] + score > 10 && (frameNum < 10 || (frameNum == 10 && scores[frameNum][playerNum][1] < 10))) 
-    || frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][1] == 10 && scores[frameNum][playerNum][2] + score > 10) {
+    } else if ((throwNum == 2 && scores[frameNum][playerNum][1] + score > 10 && (frameNum < 10 || (frameNum == 10 && scores[frameNum][playerNum][1] < 10)))
+        || frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][1] == 10 && scores[frameNum][playerNum][2] + score > 10) {
         inputErrorField.innerHTML = "Cannot knock down more than 10 pins in a round";
         scoreInput.classList.add("error");
     } else {
@@ -287,7 +287,7 @@ function setThrowScore(score) {
         throwNum++;
     }
 
-    if(gameOver) {
+    if (gameOver) {
         document.getElementById("scoreInput").disabled = true;
         document.getElementById("scoreButton").style.pointerEvents = "none";
         document.getElementById("gameOverText").style.display = "block";
@@ -305,7 +305,7 @@ function drawThrowScore(score) {
     var scoreUI;
     if (frameNum == 10 && score == 10) {
         throwSpot = ".throw" + throwNum;
-        if(throwNum == 1) {
+        if (throwNum == 1) {
             scoreUI = "X";
         } else if (throwNum == 2 && scores[frameNum][playerNum][1] != 10) {
             scoreUI = "/";
@@ -317,7 +317,7 @@ function drawThrowScore(score) {
         scoreUI = "X";
     } else {
         throwSpot = ".throw" + throwNum;
-        if ((throwNum == 2 && scores[frameNum][playerNum][1] + score == 10 && frameNum < 10) || (frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][2] + score == 10)) {
+        if ((throwNum == 2 && scores[frameNum][playerNum][1] + score == 10 && (frameNum < 10 || (frameNum == 10 && score != 0))) || (frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][2] + score == 10)) {
             scoreUI = "/";
         } else {
             scoreUI = score;
@@ -377,7 +377,7 @@ function computeCurrentPlayerScore() {
                                     }
                                 } else {
                                     // No strike on frame after first strike, so both throws next frame
-                                    if (typeof nextThrowOne  != "undefined" && typeof nextThrowTwo != "undefined") {
+                                    if (typeof nextThrowOne != "undefined" && typeof nextThrowTwo != "undefined") {
                                         playerObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
                                     }
                                 }
