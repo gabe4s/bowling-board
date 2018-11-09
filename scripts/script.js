@@ -336,7 +336,7 @@ function computeCurrentPlayerScore() {
                     // Strike
                     if (frame == 10) {
                         var throwThree = playerObj[3];
-                        if (throwTwo && throwThree) {
+                        if (typeof throwTwo != "undefined" && typeof throwThree != "undefined") {
                             playerObj["frameScore"] = frameScore + throwTwo + throwThree;
                         }
                     } else if (frame == 9) {
@@ -346,7 +346,7 @@ function computeCurrentPlayerScore() {
                             if (nextPlayerObj) {
                                 var nextThrowOne = nextPlayerObj[1];
                                 var nextThrowTwo = nextPlayerObj[2];
-                                if (nextThrowOne && nextThrowTwo) {
+                                if (typeof nextThrowOne != "undefined" && typeof nextThrowTwo != "undefined") {
                                     playerObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
                                 }
                             }
@@ -364,25 +364,25 @@ function computeCurrentPlayerScore() {
                                     if (nextNextFrameObj) {
                                         var nextNextplayerObj = nextNextFrameObj[playerNum];
                                         var nextNextThrowOne = nextNextplayerObj[1];
-                                        if (nextThrowOne && nextNextThrowOne) {
+                                        if (typeof nextThrowOne != "undefined" && typeof nextNextThrowOne != "undefined") {
                                             playerObj["frameScore"] = frameScore + nextThrowOne + nextNextThrowOne;
                                         }
                                     }
                                 } else {
                                     // No strike on frame after first strike, so both throws next frame
-                                    if (nextThrowOne && nextThrowTwo) {
+                                    if (typeof nextThrowOne  != "undefined" && typeof nextThrowTwo != "undefined") {
                                         playerObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
                                     }
                                 }
                             }
                         }
                     }
-                } else if (throwOne && throwTwo && throwOne + throwTwo == 10) {
+                } else if (typeof throwOne != "undefined" && typeof throwTwo != "undefined" && throwOne + throwTwo == 10) {
                     // Spare
                     frameScore = 10;
                     if (frame == 10) {
                         var throwThree = playerObj[3];
-                        if (throwThree) {
+                        if (typeof throwThree != "undefined") {
                             playerObj["frameScore"] = frameScore + throwThree;
                         }
                     } else {
@@ -391,13 +391,13 @@ function computeCurrentPlayerScore() {
                             var nextPlayerObj = nextFrameObj[playerNum];
                             if (nextPlayerObj) {
                                 var nextThrowOne = nextPlayerObj[1];
-                                if (nextThrowOne) {
+                                if (typeof nextThrowOne != "undefined") {
                                     playerObj["frameScore"] = frameScore + nextThrowOne;
                                 }
                             }
                         }
                     }
-                } else if (throwOne && throwTwo) {
+                } else if (typeof throwOne != "undefined" && typeof throwTwo != "undefined") {
                     // Not all pins down
                     frameScore = throwOne + throwTwo;
                     playerObj["frameScore"] = frameScore;
@@ -415,7 +415,7 @@ function drawCurrentPlayerScore() {
             var playerObj = frameObj[playerNum];
             if (playerObj) {
                 var frameScore = playerObj["frameScore"];
-                if (frameScore) {
+                if (typeof frameScore != "undefined") {
                     scoreCounter += frameScore;
                     playerObj["totalScore"] = scoreCounter;
                     var frameScoreElement = document.querySelector(("#player" + playerNum) + ">" + ("#frame" + frame) + ">.frameTotal");
