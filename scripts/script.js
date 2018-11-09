@@ -8,23 +8,43 @@ var frameNum = 1;
 var playerNum = 1;
 var throwNum = 1;
 
-var scoreField = document.getElementById("scoreInput");
+var scoreField;
+var playersInput;
+
+window.onload = function () {
+    playersInput = document.getElementById("playersInput");
+    playersInput.addEventListener("keyup", function (event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            document.getElementById("playButton").click();
+        }
+    });
+    playersInput.focus();
+
+    scoreField = document.getElementById("scoreInput");
+    scoreField.addEventListener("keyup", function (event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            document.getElementById("scoreButton").click();
+        }
+    });
+}
 
 
 function startGame() {
-    var numOfPlayers = parseInt(document.getElementById("players").value);
+    var numOfPlayers = parseInt(document.getElementById("playersInput").value);
 
-    if(isNaN(numOfPlayers) || numOfPlayers < 1 || numOfPlayers > 6) {
+    if (isNaN(numOfPlayers) || numOfPlayers < 1 || numOfPlayers > 6) {
         document.getElementById("startError").innerHTML = "Must choose between 1 and 6 players";
-        document.getElementById("players").classList.add("error");
+        document.getElementById("playersInput").classList.add("error");
     } else {
         totalPlayers = numOfPlayers;
-        
+
         // Hide start container and show game container
         document.getElementById("startContainer").style.display = "none";
         document.getElementById("gameContainer").style.display = "block";
-        
-        drawBoards(numOfPlayers);   
+
+        drawBoards(numOfPlayers);
         initializeFields();
         showNameEntryFields();
     }
@@ -112,10 +132,10 @@ function drawBoards(numOfPlayers) {
 
 }
 
-function updateBoardHighlight () {
+function updateBoardHighlight() {
     var highlightedElements = document.getElementsByClassName("highlight");
 
-    [].forEach.call(highlightedElements, function(element) {
+    [].forEach.call(highlightedElements, function (element) {
         element.classList.remove("highlight");
     });
 
@@ -123,18 +143,17 @@ function updateBoardHighlight () {
 }
 
 function initializeFields() {
-    scoreField = document.getElementById("scoreInput");
-
     updateBoardHighlight();
 }
 
 function showNameEntryFields() {
-    for(var playerId = totalPlayers; playerId >= 1; playerId--) {
+    for (var playerId = totalPlayers; playerId >= 1; playerId--) {
         var playerEntryPopup = document.createElement("div");
         playerEntryPopup.classList.add("playerEntryPopup");
+        playerEntryPopup.id = "playerEntryPopup" + playerId;
 
         var text = document.createElement("p");
-        text.innerHTML ="Enter a name for player " + playerId;
+        text.innerHTML = "Enter a name for player " + playerId;
 
         var input = document.createElement("input");
         input.type = "text";
@@ -142,26 +161,38 @@ function showNameEntryFields() {
 
         var button = document.createElement("button");
         button.innerHTML = "Submit";
-        (function (playerId, input, playerEntryPopup) {
-            button.onclick = function() {
-                if(input.value.length > 0) {
+        (function (playerId, input, playerEntryPopup, button) {
+            button.onclick = function () {
+                if (input.value.length > 0) {
                     var nameLabelInner = document.querySelector("#player" + playerId + ">.nameLabel>p");
                     playerEntryPopup.style.display = "none";
                     nameLabelInner.innerHTML = input.value;
-                    if(playerId == totalPlayers) {
+                    if (playerId == totalPlayers) {
                         document.getElementById("blocker").style.display = "none";
+                        document.getElementById("scoreInput").focus();
+                    }
+                    var nextPopupInput = document.querySelector("#playerEntryPopup" + (playerId + 1) + ">input");
+                    if (nextPopupInput) {
+                        nextPopupInput.focus();
                     }
                 } else {
                     input.classList.add("error");
                 }
             };
-        })(playerId, input, playerEntryPopup);
+            input.addEventListener("keyup", function (event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    button.click();
+                }
+            });
+        })(playerId, input, playerEntryPopup, button);
 
         playerEntryPopup.appendChild(text);
         playerEntryPopup.appendChild(input);
         playerEntryPopup.appendChild(button);
 
         document.getElementById("gameContainer").appendChild(playerEntryPopup);
+        input.focus();
     }
 }
 
@@ -169,7 +200,7 @@ function validateThrowScore() {
     var score = parseInt(scoreField.value);
     var inputErrorField = document.getElementById("inputError");
     var scoreInput = document.getElementById("scoreInput");
-    if(isNaN(score) || score < 0 || score > 10) {
+    if (isNaN(score) || score < 0 || score > 10) {
         inputErrorField.innerHTML = "Pins knocked down must be between 0 and 10";
         scoreInput.classList.add("error");
     } else if (throwNum == 2 && scores[frameNum][playerNum][1] + score > 10) {
@@ -178,12 +209,13 @@ function validateThrowScore() {
     } else {
         inputErrorField.innerHTML = "";
         scoreInput.classList.remove("error");
+        scoreInput.value = "";
         setThrowScore(score);
     }
 }
 
 function setThrowScore(score) {
-    
+
 
     var frameObj = scores[frameNum];
     if (!frameObj) {
@@ -229,23 +261,21 @@ function setThrowScore(score) {
         throwNum++;
     }
 
-    console.log(scores);
-
     updateBoardHighlight();
 }
 
 function drawThrowScore(score) {
     var throwSpot;
     var scoreUI;
-    if(frameNum == 10 && score == 10) {
+    if (frameNum == 10 && score == 10) {
         throwSpot = ".throw" + throwNum;
         scoreUI = "X";
-    } else if(throwNum == 1 && score == 10) {
+    } else if (throwNum == 1 && score == 10) {
         throwSpot = ".modifier";
         scoreUI = "X";
     } else {
         throwSpot = ".throw" + throwNum;
-        if(throwNum == 2 && scores[frameNum][playerNum][1] + score == 10) {
+        if (throwNum == 2 && scores[frameNum][playerNum][1] + score == 10) {
             scoreUI = "/";
         } else {
             scoreUI = score;
@@ -260,37 +290,37 @@ function computeCurrentPlayerScore() {
         var frameObj = scores[frame];
         if (frameObj) {
             var playerObj = frameObj[playerNum];
-            if(playerObj) {
+            if (playerObj) {
                 var throwOne = playerObj[1];
                 var throwTwo = playerObj[2];
 
                 var frameScore;
 
-                if(throwOne == 10) {
+                if (throwOne == 10) {
                     frameScore = 10; // Need to make sure its 10 so we dont count both frame 10 strikes as 20
                     // Strike
-                    if(frame == 10) {
+                    if (frame == 10) {
                         var throwThree = playerObj[3];
-                        if(throwTwo && throwThree) {
+                        if (throwTwo && throwThree) {
                             playerObj["frameScore"] = frameScore + throwTwo + throwThree;
                         }
                     } else if (frame == 9) {
-                        var nextFrameObj = scores[frame+1];
-                        if(nextFrameObj) {
+                        var nextFrameObj = scores[frame + 1];
+                        if (nextFrameObj) {
                             var nextPlayerObj = nextFrameObj[playerNum];
-                            if(nextPlayerObj) {
+                            if (nextPlayerObj) {
                                 var nextThrowOne = nextPlayerObj[1];
                                 var nextThrowTwo = nextPlayerObj[2];
-                                if(nextThrowOne && nextThrowTwo) {
+                                if (nextThrowOne && nextThrowTwo) {
                                     playerObj["frameScore"] = frameScore + nextThrowOne + nextThrowTwo;
                                 }
                             }
                         }
                     } else {
-                        var nextFrameObj = scores[frame+1];
-                        if(nextFrameObj) {
+                        var nextFrameObj = scores[frame + 1];
+                        if (nextFrameObj) {
                             var nextPlayerObj = nextFrameObj[playerNum];
-                            if(nextPlayerObj) {
+                            if (nextPlayerObj) {
                                 var nextThrowOne = nextPlayerObj[1];
                                 var nextThrowTwo = nextPlayerObj[2];
                                 if (nextThrowOne == 10) {
@@ -315,18 +345,18 @@ function computeCurrentPlayerScore() {
                 } else if (throwOne && throwTwo && throwOne + throwTwo == 10) {
                     // Spare
                     frameScore = 10;
-                    if(frame == 10) {
+                    if (frame == 10) {
                         var throwThree = playerObj[3];
-                        if(throwThree) {
+                        if (throwThree) {
                             playerObj["frameScore"] = frameScore + throwThree;
                         }
                     } else {
-                        var nextFrameObj = scores[frame+1];
-                        if(nextFrameObj) {
+                        var nextFrameObj = scores[frame + 1];
+                        if (nextFrameObj) {
                             var nextPlayerObj = nextFrameObj[playerNum];
-                            if(nextPlayerObj) {
+                            if (nextPlayerObj) {
                                 var nextThrowOne = nextPlayerObj[1];
-                                if(nextThrowOne) {
+                                if (nextThrowOne) {
                                     playerObj["frameScore"] = frameScore + nextThrowOne;
                                 }
                             }
@@ -348,9 +378,9 @@ function drawCurrentPlayerScore() {
         var frameObj = scores[frame];
         if (frameObj) {
             var playerObj = frameObj[playerNum];
-            if(playerObj) {
+            if (playerObj) {
                 var frameScore = playerObj["frameScore"];
-                if(frameScore) {
+                if (frameScore) {
                     scoreCounter += frameScore;
                     playerObj["totalScore"] = scoreCounter;
                     var frameScoreElement = document.querySelector(("#player" + playerNum) + ">" + ("#frame" + frame) + ">.frameTotal");
