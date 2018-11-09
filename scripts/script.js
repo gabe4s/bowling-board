@@ -53,6 +53,29 @@ function startGame() {
 function drawBoards(numOfPlayers) {
     var scoreboardContainer = document.getElementById("scoreboardContainer");
 
+    var frameList = document.createElement("div");
+    frameList.id = "frameList";
+    for(var frameCount = 0; frameCount <= 10; frameCount ++) {
+        var frameElement = document.createElement("div");
+        frameElement.classList.add("frameElement");
+        if(frameCount > 0) {
+            frameElement.innerHTML = frameCount;
+        }
+        if(frameCount == 0) {
+            // Size of nameLabel
+            frameElement.style.width = "8vw";
+        } else if (frameCount == 10) {
+            // Size of frame 10
+            frameElement.style.width = "12vw";
+        } else {
+            // Frames 1-9
+            frameElement.style.width = "8vw";
+        }
+        frameList.appendChild(frameElement);
+    }
+
+    scoreboardContainer.appendChild(frameList);
+
     // Using 1 base arrays to keep it consistent with user input
     for (var playerId = 1; playerId <= numOfPlayers; playerId++) {
         var scoreboard = document.createElement("div");

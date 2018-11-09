@@ -185,6 +185,18 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: rgba(100, 100, 100, 0.5);
 }
 
+#frameList {
+    margin-left: 12vw;
+    margin: auto;
+    width: 92vw;
+}
+
+.frameElement {
+    display: inline-block;
+    text-align: center;
+    font-size: 1.5vw;
+}
+
 .frame, .lastFrame {
     display: inline-block;
     height: 8vw;
