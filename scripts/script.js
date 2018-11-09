@@ -228,9 +228,9 @@ function validateThrowScore() {
     if (isNaN(score) || score < 0 || score > 10) {
         inputErrorField.innerHTML = "Pins knocked down must be between 0 and 10";
         scoreInput.classList.add("error");
-    } else if (throwNum == 2 && scores[frameNum][playerNum][1] + score > 10) {
-        inputErrorField.innerHTML = "Cannot knock down more than 10 pins in a round";
-        scoreInput.classList.add("error");
+    } else if (throwNum == 2 && scores[frameNum][playerNum][1] + score > 10 && (frameNum < 10 || (frameNum == 10 && scores[frameNum][playerNum][1] < 10))) {
+            inputErrorField.innerHTML = "Cannot knock down more than 10 pins in a round";
+            scoreInput.classList.add("error");
     } else {
         inputErrorField.innerHTML = "";
         scoreInput.classList.remove("error");
