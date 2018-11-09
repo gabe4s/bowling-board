@@ -19,6 +19,16 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+#blocker {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(50, 50, 50, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
 #wrapper {
     background-color: rgba(0, 0, 0, 0.7);
     width: 96vw;
@@ -32,6 +42,7 @@ input[type=number]::-webkit-outer-spin-button {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    z-index: 1337;
 }
 
 #players {
@@ -126,6 +137,7 @@ input[type=number]::-webkit-outer-spin-button {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    z-index: 1337;
 }
 
 .playerEntryPopup > p {

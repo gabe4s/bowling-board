@@ -148,6 +148,9 @@ function showNameEntryFields() {
                     var nameLabelInner = document.querySelector("#player" + playerId + ">.nameLabel>p");
                     playerEntryPopup.style.display = "none";
                     nameLabelInner.innerHTML = input.value;
+                    if(playerId == totalPlayers) {
+                        document.getElementById("blocker").style.display = "none";
+                    }
                 } else {
                     input.classList.add("error");
                 }
