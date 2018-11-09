@@ -134,15 +134,14 @@ function drawBoards(numOfPlayers) {
 }
 
 function updateBoardHighlight() {
-    var highlightedElements = document.getElementsByClassName("highlight");
-
-    [].forEach.call(highlightedElements, function (element) {
-        element.classList.remove("highlight");
+    var highlightedElements = document.querySelectorAll(".highlight");;
+    highlightedElements.forEach(function (element) {
+            element.classList.remove("highlight");
     });
-
+    
     document.getElementById("player" + playerNum).classList.add("highlight")
-
     document.querySelector("#player" + playerNum + ">#frame" + frameNum).classList.add("highlight");
+    
 }
 
 function initializeFields() {
@@ -218,7 +217,7 @@ function validateThrowScore() {
 }
 
 function setThrowScore(score) {
-
+    var gameOver = false;
 
     var frameObj = scores[frameNum];
     if (!frameObj) {
@@ -247,13 +246,8 @@ function setThrowScore(score) {
         } else {
             if (playerNum == totalPlayers) {
                 if (frameNum == 10) {
-                    // End game
-                    document.getElementById("scoreInput").disabled = true;
-                    document.getElementById("scoreButton").style.pointerEvents = "none";
-                    var highlightedElements = document.getElementsByClassName("highlight");
-                    [].forEach.call(highlightedElements, function (element) {
-                        element.classList.remove("highlight");
-                    });
+                    // Game Over
+                    gameOver = true;
                 } else {
                     // Increase the frame, go back to player 1
                     frameNum++;
@@ -269,7 +263,17 @@ function setThrowScore(score) {
         throwNum++;
     }
 
-    updateBoardHighlight();
+    if(gameOver) {
+        document.getElementById("scoreInput").disabled = true;
+        document.getElementById("scoreButton").style.pointerEvents = "none";
+        document.getElementById("gameOverText").style.display = "block";
+        var highlightedElements = document.querySelectorAll(".highlight");
+        highlightedElements.forEach(function (element) {
+            element.classList.remove("highlight");
+        });
+    } else {
+        updateBoardHighlight();
+    }
 }
 
 function drawThrowScore(score) {

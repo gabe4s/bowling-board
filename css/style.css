@@ -261,3 +261,14 @@ input[type=number]::-webkit-outer-spin-button {
 .error {
     border-color: red !important;
 }
+
+#gameOverText {
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: 6vh;
+    margin: auto;
+    font-size: 3vw;
+    display: none;
+}
