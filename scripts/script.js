@@ -317,7 +317,7 @@ function drawThrowScore(score) {
         scoreUI = "X";
     } else {
         throwSpot = ".throw" + throwNum;
-        if ((throwNum == 2 && scores[frameNum][playerNum][1] + score == 10 && (frameNum < 10 || (frameNum == 10 && score != 0))) || (frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][2] + score == 10)) {
+        if ((throwNum == 2 && scores[frameNum][playerNum][1] + score == 10 && (frameNum < 10 || (frameNum == 10 && score != 0))) || (frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][2] + score == 10 && score != 0)) {
             scoreUI = "/";
         } else {
             scoreUI = score;
