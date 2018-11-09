@@ -16,6 +16,7 @@ function startGame() {
 
     if(isNaN(numOfPlayers) || numOfPlayers < 1 || numOfPlayers > 6) {
         document.getElementById("startError").innerHTML = "Must choose between 1 and 6 players";
+        document.getElementById("players").classList.add("error");
     } else {
         totalPlayers = numOfPlayers;
         
@@ -143,9 +144,13 @@ function showNameEntryFields() {
         button.innerHTML = "Submit";
         (function (playerId, input, playerEntryPopup) {
             button.onclick = function() {
-                var nameLabelInner = document.querySelector("#player" + playerId + ">.nameLabel>p");
-                playerEntryPopup.style.display = "none";
-                nameLabelInner.innerHTML = input.value;
+                if(input.value.length > 0) {
+                    var nameLabelInner = document.querySelector("#player" + playerId + ">.nameLabel>p");
+                    playerEntryPopup.style.display = "none";
+                    nameLabelInner.innerHTML = input.value;
+                } else {
+                    input.classList.add("error");
+                }
             };
         })(playerId, input, playerEntryPopup);
 
@@ -157,8 +162,25 @@ function showNameEntryFields() {
     }
 }
 
-function setThrowScore() {
+function validateThrowScore() {
     var score = parseInt(scoreField.value);
+    var inputErrorField = document.getElementById("inputError");
+    var scoreInput = document.getElementById("scoreInput");
+    if(isNaN(score) || score < 0 || score > 10) {
+        inputErrorField.innerHTML = "Pins knocked down must be between 0 and 10";
+        scoreInput.classList.add("error");
+    } else if (throwNum == 2 && scores[frameNum][playerNum][1] + score > 10) {
+        inputErrorField.innerHTML = "Cannot knock down more than 10 pins in a round";
+        scoreInput.classList.add("error");
+    } else {
+        inputErrorField.innerHTML = "";
+        scoreInput.classList.remove("error");
+        setThrowScore(score);
+    }
+}
+
+function setThrowScore(score) {
+    
 
     var frameObj = scores[frameNum];
     if (!frameObj) {
