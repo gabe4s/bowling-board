@@ -228,9 +228,10 @@ function validateThrowScore() {
     if (isNaN(score) || score < 0 || score > 10) {
         inputErrorField.innerHTML = "Pins knocked down must be between 0 and 10";
         scoreInput.classList.add("error");
-    } else if (throwNum == 2 && scores[frameNum][playerNum][1] + score > 10 && (frameNum < 10 || (frameNum == 10 && scores[frameNum][playerNum][1] < 10))) {
-            inputErrorField.innerHTML = "Cannot knock down more than 10 pins in a round";
-            scoreInput.classList.add("error");
+    } else if ((throwNum == 2 && scores[frameNum][playerNum][1] + score > 10 && (frameNum < 10 || (frameNum == 10 && scores[frameNum][playerNum][1] < 10))) 
+    || frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][1] == 10 && scores[frameNum][playerNum][2] + score > 10) {
+        inputErrorField.innerHTML = "Cannot knock down more than 10 pins in a round";
+        scoreInput.classList.add("error");
     } else {
         inputErrorField.innerHTML = "";
         scoreInput.classList.remove("error");
@@ -304,13 +305,19 @@ function drawThrowScore(score) {
     var scoreUI;
     if (frameNum == 10 && score == 10) {
         throwSpot = ".throw" + throwNum;
-        scoreUI = "X";
+        if(throwNum == 1) {
+            scoreUI = "X";
+        } else if (throwNum == 2 && scores[frameNum][playerNum][1] != 10) {
+            scoreUI = "/";
+        } else {
+            scoreUI = "X";
+        }
     } else if (throwNum == 1 && score == 10) {
         throwSpot = ".modifier";
         scoreUI = "X";
     } else {
         throwSpot = ".throw" + throwNum;
-        if (throwNum == 2 && scores[frameNum][playerNum][1] + score == 10) {
+        if ((throwNum == 2 && scores[frameNum][playerNum][1] + score == 10 && frameNum < 10) || (frameNum == 10 && throwNum == 3 && scores[frameNum][playerNum][2] + score == 10)) {
             scoreUI = "/";
         } else {
             scoreUI = score;
